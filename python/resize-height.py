@@ -12,10 +12,10 @@ height = int(sys.argv[2])
 
 
 
-for product in os.listdir():
-    productRoot = root + '/' + product
-    originalRoot = productRoot + '/original'
-    resizeRoot = "{}/h{}".format(productRoot, height)
+for product in os.listdir(root):
+    productRoot = os.path.join(root, product)
+    originalRoot = os.path.join(productRoot, 'original')
+    resizeRoot = os.path.join(productRoot, 'h{}'.format(height))
     if not os.path.isdir(productRoot):
         continue
     if not os.path.exists(originalRoot):
@@ -25,9 +25,9 @@ for product in os.listdir():
     imageNames = os.listdir(originalRoot)
     print('{} has {} images.'.format(product, len(imageNames)))
     for name in imageNames:
-        img = Image.open(originalRoot + '/' + name)
+        img = Image.open(os.path.join(originalRoot, name))
         width = height * img.width // img.height
         result = img.resize((width, height))
-        result.save(resizeRoot + '/' + name)
+        result.save(os.path.join(resizeRoot, name))
 
 
